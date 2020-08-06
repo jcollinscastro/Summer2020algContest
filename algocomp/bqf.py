@@ -1,4 +1,3 @@
-
 """
 Copyright (c) 2020 jcollinscastro
 
@@ -20,6 +19,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
+
+
 from .gcd import xgcd
 from .isqrt import isqrt
 from .cost_tracking import (routine_tracking_start, routine_tracking_stop)
@@ -28,7 +30,7 @@ from .int_div import exact_div
 
 
 def reduce_form(a,b,c):
-    """calculates reduced binary quadratic form"""
+    """calculates  partially reduced binary quadratic form"""
     a0,b0,c0 = a,b,c
 
     # -- normalize form --
@@ -138,30 +140,3 @@ def nudupl(a,b,c, L=None):
     c2 = c2 + g*v2
 
     return reduce_form(a2,b2,c2)
-
-
-def test_nudupl():
-    f = (20,7,1360)  # discriminant = -108751, class size = 231
-
-    # expected answers calculated with pari-gp
-    expected_answers = [
-        (68, -7, 400),  # f0^2
-        (161, 27, 170), # f0^4
-        (10, 7, 2720),  # f0^8
-        (100, 7, 272),  # f0^16
-        (19, -9, 1432), # f0^32
-        (98, 15, 278),  # f0^64
-        (145, 17, 188), # f0^128
-        (38, -9, 716),  # f0^256
-        (160, 57, 175), # f0^512
-        (118, -35, 233),# f0^1024
-        (73, -47, 380), # f0^2048
-    ]
-
-    for i, answer in enumerate(expected_answers):
-        f = nudupl(*f)
-        if f != answer:
-            raise Exception("failed on step {}, got:{} expected:{}".format(
-                            i, f, answer))
-
-

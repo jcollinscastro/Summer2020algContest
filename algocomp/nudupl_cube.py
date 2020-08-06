@@ -1,4 +1,3 @@
-
 """
 Copyright (c) 2020 jcollinscastro
 
@@ -138,6 +137,32 @@ def construct_nudupl_cube(A, B, C, L):
     # new_b can only be 0 if partial_xgcd performed no steps
     # and that case was already handled in the special case above
     new_h = exact_div(new_f*new_d - C, new_b)
+
+    if 0:
+        # -- debugging info
+
+        f = exact_div(C + b*B, A)
+
+        # new_b = b*x - z*A  --->  z = (b*x-new_b)/A
+        z = exact_div(b*x - new_b, A)
+
+        # w*x - y*z = 1  --->  w = (1 + y*z)/x
+        # ... nope, sometimes x is 0
+        #
+        # new_d = -y*b + w*A  --->  w = (new_d + b*y)/A
+        w = exact_div(new_d + b*y, A)
+
+        assert w*x - y*z == 1
+        print("----- initial nudupl cube")
+        initial_cube = (a, b, c, d, b, f, d, h)
+        reduced_cube = (new_a, new_b, new_c, new_d, new_b, new_f, new_d, new_h)
+        print_cube_stats(initial_cube)
+        print("new_d:{}, x:{}, new_b:{}, y:{}".format(new_d,x,new_b,y))
+        print("transformation:")
+        print("  x:{}, -z:{}, -y:{}, w:{}".format(x,-z,-y,w))
+        check_cube = transform_cube(initial_cube, x,-z,-y,w)
+        assert check_cube == reduced_cube
+        print_cube_stats(reduced_cube)
 
     return (new_a, new_b, new_c, new_d, new_b, new_f, new_d, new_h)
 
